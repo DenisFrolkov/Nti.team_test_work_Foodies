@@ -17,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
@@ -28,7 +29,9 @@ import com.example.ntiteam_test_work_foodies.ui.theme.Orange
 
 @Composable
 fun FixedButton(
-    texTotalPrice: String
+    textTotalPrice: String,
+    painterCard: Painter,
+    textInCard: String
 ) {
     Box(
         modifier = Modifier
@@ -44,17 +47,19 @@ fun FixedButton(
                 .fillMaxWidth()
                 .padding(vertical = 15.67.dp)
         ) {
-            Icon(
-                painter = painterResource(
-                    id = R.drawable.card_icon
-                ),
-                contentDescription = null,
-                tint = Color.White,
-                modifier = Modifier.size(16.dp)
-            )
+            if (textInCard.isBlank()) {
+                Icon(
+                    painter = painterResource(
+                        id = R.drawable.card_icon
+                    ),
+                    contentDescription = null,
+                    tint = Color.White,
+                    modifier = Modifier.size(16.dp)
+                )
+            }
             Spacer(modifier = Modifier.width(10.dp))
             Text(
-                text = "$texTotalPrice ₽",
+                text = if (textInCard == "В корзину за") "$textInCard $textTotalPrice ₽" else "$textTotalPrice ₽",
                 style = TextStyle(
                     fontSize = 16.sp,
                     color = Color.White,

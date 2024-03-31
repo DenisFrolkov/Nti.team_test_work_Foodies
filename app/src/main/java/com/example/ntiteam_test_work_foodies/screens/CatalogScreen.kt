@@ -45,7 +45,6 @@ fun CatalogScreen() {
     Catalog()
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun Catalog() {
     Column {
@@ -58,13 +57,13 @@ fun Catalog() {
                     .height(16.dp)
                     .fillMaxWidth()
                     .background(
-                    brush = Brush.verticalGradient(
-                        colors = listOf(
-                            Gray,
-                            Color.White,
-                        ),
+                        brush = Brush.verticalGradient(
+                            colors = listOf(
+                                Gray,
+                                Color.White,
+                            ),
+                        )
                     )
-                )
             )
         }
 
@@ -89,7 +88,7 @@ fun Catalog() {
             .fillMaxSize()
             .navigationBarsPadding()
     ) {
-        FixedButton(texTotalPrice = "2 160")
+        FixedButton(textTotalPrice = "2 160", painterCard = painterResource(id = R.drawable.card_icon), textInCard = "")
     }
 }
 
