@@ -1,10 +1,8 @@
 package com.example.ntiteam_test_work_foodies.screens
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -17,7 +15,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -26,15 +23,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.ntiteam_test_work_foodies.R
-import com.example.ntiteam_test_work_foodies.ui.theme.GradientColorOne
-import com.example.ntiteam_test_work_foodies.ui.theme.GradientColorThree
-import com.example.ntiteam_test_work_foodies.ui.theme.GradientColorTwo
 import com.example.ntiteam_test_work_foodies.ui.theme.Gray
 import com.example.ntiteam_test_work_foodies.universalComponents.CategoriesItem
 import com.example.ntiteam_test_work_foodies.universalComponents.FixedButton
@@ -88,7 +81,7 @@ fun Catalog() {
             .fillMaxSize()
             .navigationBarsPadding()
     ) {
-        FixedButton(textTotalPrice = "2 160", painterCard = painterResource(id = R.drawable.card_icon), textInCard = "")
+        FixedButton(textTotalPrice = "2 160", painterCard = painterResource(id = R.drawable.basket_icon), textInCard = "")
     }
 }
 
@@ -124,7 +117,6 @@ fun TopLine() {
                 .size(24.dp)
         )
     }
-
 }
 
 @Composable

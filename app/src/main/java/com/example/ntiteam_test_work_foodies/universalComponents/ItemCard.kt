@@ -20,7 +20,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
@@ -126,31 +125,10 @@ fun ItemCard(
                         )
                     }
                 } else {
-                    Row(
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 12.dp)
-                    ) {
-                        Box(modifier = Modifier.clickable { countAddCard-- }) {
-                            AddCardItem(
-                                iconItem = painterResource(id = R.drawable.minus_icon),
-                            )
-                        }
-                        Text(
-                            text = countAddCard.toString(),
-                            style = TextStyle(
-                                fontSize = 16.sp,
-                                fontFamily = FontFamily(Font(R.font.roboto_medium))
-                            )
-                        )
-                        Box(modifier = Modifier.clickable { countAddCard++ }) {
-                            AddCardItem(
-                                iconItem = painterResource(id = R.drawable.plus_icon),
-                            )
-                        }
-                    }
+                    CounterItemCard(
+                        countAddCard = countAddCard,
+                        newCountAddCard = { newCountAddCount -> countAddCard = newCountAddCount }
+                    )
                 }
             }
         }

@@ -5,8 +5,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -16,21 +16,22 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.ntiteam_test_work_foodies.R
+import com.example.ntiteam_test_work_foodies.ui.theme.Gray
 import com.example.ntiteam_test_work_foodies.ui.theme.Orange
 
 @Composable
 fun FixedButton(
     textTotalPrice: String,
-    painterCard: Painter,
+    painterCard: Painter?,
     textInCard: String
 ) {
     Box(
@@ -47,19 +48,17 @@ fun FixedButton(
                 .fillMaxWidth()
                 .padding(vertical = 15.67.dp)
         ) {
-            if (textInCard.isBlank()) {
+            if (painterCard != null) {
                 Icon(
-                    painter = painterResource(
-                        id = R.drawable.card_icon
-                    ),
+                    painter = painterCard,
                     contentDescription = null,
                     tint = Color.White,
                     modifier = Modifier.size(16.dp)
                 )
+                Spacer(modifier = Modifier.width(10.dp))
             }
-            Spacer(modifier = Modifier.width(10.dp))
             Text(
-                text = if (textInCard == "В корзину за") "$textInCard $textTotalPrice ₽" else "$textTotalPrice ₽",
+                text = if (painterCard == null) "$textInCard $textTotalPrice ₽" else "$textTotalPrice ₽",
                 style = TextStyle(
                     fontSize = 16.sp,
                     color = Color.White,

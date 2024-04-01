@@ -16,9 +16,10 @@ import com.example.ntiteam_test_work_foodies.ui.theme.Orange
 
 @Composable
 fun AddCardItem(
-    iconItem: Painter
+    iconItem: Painter,
+    colorItem: Color
 ) {
-    Box(modifier = Modifier.background(color = Color.White, shape = RoundedCornerShape(8.dp))) {
+    Box(modifier = Modifier.background(color = colorItem, shape = RoundedCornerShape(8.dp))) {
         Icon(
             painter = iconItem,
             contentDescription = null,

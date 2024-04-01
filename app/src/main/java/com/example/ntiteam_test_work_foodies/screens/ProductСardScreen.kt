@@ -51,11 +51,11 @@ fun ProductCard() {
             TitleProductCurd("Том Ям")
             CompoundProductCurd(textCompound = "Кокосовое молоко, кальмары, креветки, помидоры черри, грибы вешанки")
             Spacer(modifier = Modifier.height(24.dp))
-            ListItem(titleListItem = "Вес", textListItem = "400 г")
-            ListItem(titleListItem = "Энерг. ценность", textListItem = "198,9 ккал")
-            ListItem(titleListItem = "Белки", textListItem = "10 г")
-            ListItem(titleListItem = "Жиры", textListItem = "8,5 г")
-            ListItem(titleListItem = "Углеводы", textListItem = "19,7 г")
+            ListItemProductCard(titleListItem = "Вес", textListItem = "400 г")
+            ListItemProductCard(titleListItem = "Энерг. ценность", textListItem = "198,9 ккал")
+            ListItemProductCard(titleListItem = "Белки", textListItem = "10 г")
+            ListItemProductCard(titleListItem = "Жиры", textListItem = "8,5 г")
+            ListItemProductCard(titleListItem = "Углеводы", textListItem = "19,7 г")
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -80,7 +80,7 @@ fun ProductCard() {
     ) {
         FixedButton(
             textTotalPrice = "2 160",
-            painterCard = painterResource(id = R.drawable.card_icon),
+            painterCard = null,
             textInCard = "В корзину за"
         )
     }
@@ -157,7 +157,7 @@ fun CompoundProductCurd(
 
 
 @Composable
-fun ListItem(
+fun ListItemProductCard(
     titleListItem: String,
     textListItem: String
 ) {
