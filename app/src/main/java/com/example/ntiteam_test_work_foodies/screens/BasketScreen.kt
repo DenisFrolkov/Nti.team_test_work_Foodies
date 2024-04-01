@@ -40,6 +40,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.ntiteam_test_work_foodies.R
 import com.example.ntiteam_test_work_foodies.dataclass_ui.BasketItem
 import com.example.ntiteam_test_work_foodies.ui.theme.Gray
@@ -48,13 +49,18 @@ import com.example.ntiteam_test_work_foodies.universalComponents.FixedButton
 import com.example.ntiteam_test_work_foodies.universalComponents.TopBar
 
 @Composable
-fun BasketScreen() {
-    Basket()
+fun BasketScreen(
+    navController: NavController
+) {
+    Basket(
+        navController = navController
+    )
 }
 
-@Preview
 @Composable
-fun Basket() {
+fun Basket(
+    navController: NavController
+) {
     val basketItems = listOf(
         BasketItem(R.drawable.photo_basket_1_image, "Том Ям", "800", "720"),
         BasketItem(
@@ -80,7 +86,7 @@ fun Basket() {
                 .height(24.dp)
                 .background(Color.White)
         )
-        TopBar()
+        TopBar(navController = navController)
 //        Box(
 //            modifier = Modifier
 //                .fillMaxSize()
@@ -119,7 +125,8 @@ fun Basket() {
                         imageItem = painterResource(id = item.image),
                         titleItem = item.title,
                         textPriceItem = item.price,
-                        textSalePriceItem = item.salePrice
+                        textSalePriceItem = item.salePrice,
+                        navController = navController
                     )
                 }
             }
@@ -134,7 +141,8 @@ fun Basket() {
                 FixedButton(
                     textTotalPrice = "2 160",
                     painterCard = null,
-                    textInCard = "Заказать за"
+                    textInCard = "Заказать за",
+                    navController = navController
                 )
             }
         }
@@ -147,7 +155,8 @@ fun ListItemBasket(
     imageItem: Painter,
     titleItem: String,
     textPriceItem: String,
-    textSalePriceItem: String?
+    textSalePriceItem: String?,
+    navController: NavController
 ) {
     var countAddCard by remember { mutableStateOf(1) }
     if (countAddCard > 0) {
@@ -156,6 +165,10 @@ fun ListItemBasket(
             modifier = Modifier
                 .height(height = 128.dp)
                 .padding(16.dp)
+                .clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = null
+                ) { navController.navigate("product_card_screen") }
         ) {
             Image(
                 painter = imageItem,

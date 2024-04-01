@@ -31,6 +31,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.ntiteam_test_work_foodies.R
 import com.example.ntiteam_test_work_foodies.ui.theme.Gray
 
@@ -39,12 +40,17 @@ fun ItemCard(
     textName: String,
     textWeight: String,
     textPrice: String,
-    textSalePrice: String?
+    textSalePrice: String?,
+    navController: NavController
 ) {
     var countAddCard by remember { mutableStateOf(0) }
     Box(
         modifier = Modifier
             .background(color = Gray, shape = RoundedCornerShape(8.dp))
+            .clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null
+            ) { navController.navigate("product_card_screen") }
     ) {
         if (textSalePrice != null) {
             Box(modifier = Modifier.padding(8.dp)) {

@@ -27,6 +27,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.ntiteam_test_work_foodies.R
 import com.example.ntiteam_test_work_foodies.ui.theme.Gray
 import com.example.ntiteam_test_work_foodies.universalComponents.CategoriesItem
@@ -34,12 +35,16 @@ import com.example.ntiteam_test_work_foodies.universalComponents.FixedButton
 import com.example.ntiteam_test_work_foodies.universalComponents.ItemCard
 
 @Composable
-fun CatalogScreen() {
-    Catalog()
+fun CatalogScreen(
+    navController: NavController
+) {
+    Catalog(navController = navController)
 }
 
 @Composable
-fun Catalog() {
+fun Catalog(
+    navController: NavController
+) {
     Column {
         Column(
         ) {
@@ -70,7 +75,7 @@ fun Catalog() {
                 Column(
                     modifier = Modifier.padding(horizontal = 16.dp)
                 ) {
-                    ItemList()
+                    ItemList(navController = navController)
                 }
             }
         }
@@ -81,7 +86,12 @@ fun Catalog() {
             .fillMaxSize()
             .navigationBarsPadding()
     ) {
-        FixedButton(textTotalPrice = "2 160", painterCard = painterResource(id = R.drawable.basket_icon), textInCard = "")
+        FixedButton(
+            textTotalPrice = "2 160",
+            painterCard = painterResource(id = R.drawable.basket_icon),
+            textInCard = "",
+            navController = navController
+        )
     }
 }
 
@@ -139,7 +149,9 @@ fun Categories() {
 }
 
 @Composable
-fun ItemList() {
+fun ItemList(
+    navController: NavController
+) {
     Row(
     ) {
         Column(
@@ -151,21 +163,24 @@ fun ItemList() {
                 textName = "Том Ям",
                 textWeight = "500 гр",
                 textPrice = "800",
-                textSalePrice = "720"
+                textSalePrice = "720",
+                navController = navController
             )
             Spacer(modifier = Modifier.height(8.dp))
             ItemCard(
                 textName = "Том Ям",
                 textWeight = "500 гр",
                 textPrice = "800",
-                textSalePrice = "720"
+                textSalePrice = "720",
+                navController = navController
             )
             Spacer(modifier = Modifier.height(8.dp))
             ItemCard(
                 textName = "Том Ям",
                 textWeight = "500 гр",
                 textPrice = "800",
-                textSalePrice = "720"
+                textSalePrice = "720",
+                navController = navController
             )
         }
         Column(
@@ -176,21 +191,24 @@ fun ItemList() {
                 textName = "Том Ям",
                 textWeight = "500 гр",
                 textPrice = "800",
-                textSalePrice = null
+                textSalePrice = null,
+                navController = navController
             )
             Spacer(modifier = Modifier.height(8.dp))
             ItemCard(
                 textName = "Том Ям",
                 textWeight = "500 гр",
                 textPrice = "800",
-                textSalePrice = null
+                textSalePrice = null,
+                navController = navController
             )
             Spacer(modifier = Modifier.height(8.dp))
             ItemCard(
                 textName = "Том Ям",
                 textWeight = "500 гр",
                 textPrice = "800",
-                textSalePrice = null
+                textSalePrice = null,
+                navController = navController
             )
         }
     }

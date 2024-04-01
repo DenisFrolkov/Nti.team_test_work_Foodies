@@ -1,6 +1,8 @@
 package com.example.ntiteam_test_work_foodies.universalComponents
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -12,6 +14,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -25,13 +28,15 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.ntiteam_test_work_foodies.R
 import com.example.ntiteam_test_work_foodies.ui.theme.Gray
 import com.example.ntiteam_test_work_foodies.ui.theme.Orange
 
-@Preview
 @Composable
-fun TopBar() {
+fun TopBar(
+    navController: NavController
+) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
@@ -39,7 +44,12 @@ fun TopBar() {
             .background(color = Color.White)
     ) {
         Box(
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier
+                .padding(16.dp)
+                .clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = null
+                ) { navController.popBackStack() }
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.back_item),

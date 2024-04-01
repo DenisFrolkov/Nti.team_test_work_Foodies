@@ -4,6 +4,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.navigation.Navigation
+import com.example.ntiteam_test_work_foodies.navigation.Navigation
 import com.example.ntiteam_test_work_foodies.screens.BasketScreen
 import com.example.ntiteam_test_work_foodies.screens.CatalogScreen
 import com.example.ntiteam_test_work_foodies.screens.ProductCardScreen
@@ -15,9 +17,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             Ntiteam_test_work_FoodiesTheme {
-//                CatalogScreen()
-                ProductCardScreen()
-//                BasketScreen()
+
+                Navigation()
             }
         }
     }

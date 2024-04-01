@@ -2,6 +2,8 @@ package com.example.ntiteam_test_work_foodies.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,6 +20,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -30,16 +33,22 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.ntiteam_test_work_foodies.R
 import com.example.ntiteam_test_work_foodies.universalComponents.FixedButton
 
 @Composable
-fun ProductCardScreen() {
-    ProductCard()
+fun ProductCardScreen(
+    navController: NavController
+) {
+    ProductCard(navController = navController)
 }
 
 @Composable
-fun ProductCard() {
+fun ProductCard(
+    navController: NavController
+) {
+
     LazyColumn(
         modifier = Modifier
             .padding(top = 24.dp)
@@ -51,11 +60,11 @@ fun ProductCard() {
             TitleProductCurd("Том Ям")
             CompoundProductCurd(textCompound = "Кокосовое молоко, кальмары, креветки, помидоры черри, грибы вешанки")
             Spacer(modifier = Modifier.height(24.dp))
-            ListItemProductCard(titleListItem = "Вес", textListItem = "400 г")
-            ListItemProductCard(titleListItem = "Энерг. ценность", textListItem = "198,9 ккал")
-            ListItemProductCard(titleListItem = "Белки", textListItem = "10 г")
-            ListItemProductCard(titleListItem = "Жиры", textListItem = "8,5 г")
-            ListItemProductCard(titleListItem = "Углеводы", textListItem = "19,7 г")
+            ListItemProductCard(titleListItem = "Вес", textListItem = "400 г", navController = navController)
+            ListItemProductCard(titleListItem = "Энерг. ценность", textListItem = "198,9 ккал", navController = navController)
+            ListItemProductCard(titleListItem = "Белки", textListItem = "10 г", navController = navController)
+            ListItemProductCard(titleListItem = "Жиры", textListItem = "8,5 г", navController = navController)
+            ListItemProductCard(titleListItem = "Углеводы", textListItem = "19,7 г", navController = navController)
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -70,7 +79,9 @@ fun ProductCard() {
         modifier = Modifier
             .padding(start = 16.dp, top = 40.dp)
     ) {
-        BackButton()
+        BackButton(
+            navController = navController
+        )
     }
     Column(
         verticalArrangement = Arrangement.Bottom,
@@ -81,13 +92,16 @@ fun ProductCard() {
         FixedButton(
             textTotalPrice = "2 160",
             painterCard = null,
-            textInCard = "В корзину за"
+            textInCard = "В корзину за",
+            navController = navController
         )
     }
 }
 
 @Composable
-fun BackButton() {
+fun BackButton(
+    navController: NavController
+) {
     Box(
         modifier = Modifier
             .shadow(
@@ -103,6 +117,12 @@ fun BackButton() {
             modifier = Modifier
                 .padding(10.dp)
                 .size(24.dp)
+                .clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = null
+                ) {
+                    navController.popBackStack()
+                }
         )
     }
 }
@@ -159,9 +179,17 @@ fun CompoundProductCurd(
 @Composable
 fun ListItemProductCard(
     titleListItem: String,
-    textListItem: String
+    textListItem: String,
+    navController: NavController
 ) {
-    Column {
+    Column(
+        modifier = Modifier.clickable(
+            interactionSource = remember { MutableInteractionSource() },
+            indication = null
+        ) {
+            navController.navigate("product_card_screen")
+        }
+    ) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
