@@ -1,5 +1,11 @@
 package com.example.ntiteam_test_work_foodies.universalComponents
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -30,18 +36,25 @@ fun CategoriesItem(
     selectedCategory: String,
     onCategorySelected: (String) -> Unit
 ) {
+    val isSelected = selectedCategory == categoriesTitle
+    val backgroundColor by animateColorAsState(if (isSelected) Orange else Color.White)
+    val textColor by animateColorAsState(if (isSelected) Color.White else Color.Black)
+
     Box(
         modifier = Modifier
             .padding(horizontal = 4.dp)
             .background(
-                color = if (selectedCategory == categoriesTitle) Orange else Color.White,
+                color = backgroundColor,
                 shape = RoundedCornerShape(8.dp)
             )
-            .clickable { onCategorySelected(categoriesTitle) }
+            .clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null
+            ) { onCategorySelected(categoriesTitle) }
     ) {
         Text(
             text = categoriesTitle,
-            color = if (selectedCategory == categoriesTitle) Color.White else Color.Black,
+            color = textColor,
             style = TextStyle(
                 fontSize = 16.sp,
                 fontFamily = FontFamily(Font(R.font.roboto_medium))
@@ -50,3 +63,6 @@ fun CategoriesItem(
         )
     }
 }
+
+
+
