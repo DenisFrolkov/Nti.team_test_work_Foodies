@@ -120,6 +120,7 @@ fun ProductsList(products: List<Product>, navController: NavController) {
             ) {
                 items(productPair) { product ->
                     ItemCard(
+                        idProduct = product.id,
                         textName = product.name,
                         textWeight = product.measure.toString(),
                         textWeightUnit = product.measure_unit,

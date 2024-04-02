@@ -39,6 +39,7 @@ import com.example.ntiteam_test_work_foodies.ui.theme.Gray
 
 @Composable
 fun ItemCard(
+    idProduct: Int,
     textName: String,
     textWeight: String,
     textWeightUnit: String,
@@ -47,8 +48,8 @@ fun ItemCard(
     navController: NavController
 ) {
     var countAddCard by remember { mutableStateOf(0) }
-    var priceCurrentInRub = priceCurrent.toInt()/100
-    var priceOldInRub = priceOld.toInt()/100
+    val priceCurrentInRub = priceCurrent.toInt()/100
+    val priceOldInRub = priceOld.toInt()/100
     Box(
         modifier = Modifier
             .background(color = Gray, shape = RoundedCornerShape(8.dp))
@@ -57,7 +58,7 @@ fun ItemCard(
             .clickable(
                 interactionSource = remember { MutableInteractionSource() },
                 indication = null
-            ) { navController.navigate("product_card_screen") }
+            ) { navController.navigate("product_card_screen/$idProduct") }
     ) {
         if (priceOld.toInt() != 0) {
             Box(modifier = Modifier.padding(8.dp)) {

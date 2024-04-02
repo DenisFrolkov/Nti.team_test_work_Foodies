@@ -9,13 +9,13 @@ import androidx.navigation.compose.rememberNavController
 import com.example.ntiteam_test_work_foodies.api.MainViewModel
 import com.example.ntiteam_test_work_foodies.screens.BasketScreen
 import com.example.ntiteam_test_work_foodies.screens.CatalogScreen
-import com.example.ntiteam_test_work_foodies.screens.ProductCard
 import com.example.ntiteam_test_work_foodies.screens.ProductCardScreen
 
 @SuppressLint("UnusedCrossfadeTargetStateParameter")
 @Composable
 fun Navigation(viewModel: MainViewModel) {
     val navController = rememberNavController()
+    val product = viewModel.products
 
     NavHost(navController = navController, startDestination = "catalog_screen") {
         composable("catalog_screen") {
@@ -23,9 +23,12 @@ fun Navigation(viewModel: MainViewModel) {
                 CatalogScreen(navController = navController, viewModel = viewModel)
             }
         }
-        composable("product_card_screen") {
-            Crossfade(targetState = "product_card_screen") {
-                ProductCardScreen(navController = navController, viewModel = viewModel)
+        composable("product_card_screen/{idProduct}") { backStackEntry ->
+            val idProduct = backStackEntry.arguments?.getString("idProduct")
+            if (idProduct != null) {
+                Crossfade(targetState = "product_card_screen/$idProduct") {
+                    ProductCardScreen(navController = navController, viewModel = viewModel, idProduct = idProduct)
+                }
             }
         }
         composable("basket_screen") {

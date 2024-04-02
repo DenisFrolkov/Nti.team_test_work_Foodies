@@ -20,6 +20,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -36,19 +38,31 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.ntiteam_test_work_foodies.R
 import com.example.ntiteam_test_work_foodies.api.MainViewModel
+import com.example.ntiteam_test_work_foodies.api.Product
 import com.example.ntiteam_test_work_foodies.universalComponents.FixedButton
+
 
 @Composable
 fun ProductCardScreen(
     navController: NavController,
-    viewModel: MainViewModel
+    viewModel: MainViewModel,
+    idProduct: String?
 ) {
-    ProductCard(navController = navController)
+    val product by viewModel.getProductById(idProduct ?: "0").observeAsState()
+
+    if (product != null) {
+        ProductCard(navController = navController, product = product!!)
+    } else {
+        // Отображение состояния загрузки или ошибки
+        Text("$product")
+    }
 }
+
 
 @Composable
 fun ProductCard(
-    navController: NavController
+    navController: NavController,
+    product: Product
 ) {
 
     LazyColumn(
@@ -57,16 +71,37 @@ fun ProductCard(
             .background(color = Color.White)
     ) {
         item {
+
             BigImage()
             Spacer(modifier = Modifier.height(24.dp))
-            TitleProductCurd("Том Ям")
+            TitleProductCurd(textTitle = "1241")
             CompoundProductCurd(textCompound = "Кокосовое молоко, кальмары, креветки, помидоры черри, грибы вешанки")
             Spacer(modifier = Modifier.height(24.dp))
-            ListItemProductCard(titleListItem = "Вес", textListItem = "400 г", navController = navController)
-            ListItemProductCard(titleListItem = "Энерг. ценность", textListItem = "198,9 ккал", navController = navController)
-            ListItemProductCard(titleListItem = "Белки", textListItem = "10 г", navController = navController)
-            ListItemProductCard(titleListItem = "Жиры", textListItem = "8,5 г", navController = navController)
-            ListItemProductCard(titleListItem = "Углеводы", textListItem = "19,7 г", navController = navController)
+            ListItemProductCard(
+                titleListItem = "Вес",
+                textListItem = "400 г",
+                navController = navController
+            )
+            ListItemProductCard(
+                titleListItem = "Энерг. ценность",
+                textListItem = "198,9 ккал",
+                navController = navController
+            )
+            ListItemProductCard(
+                titleListItem = "Белки",
+                textListItem = "10 г",
+                navController = navController
+            )
+            ListItemProductCard(
+                titleListItem = "Жиры",
+                textListItem = "8,5 г",
+                navController = navController
+            )
+            ListItemProductCard(
+                titleListItem = "Углеводы",
+                textListItem = "19,7 г",
+                navController = navController
+            )
             Box(
                 modifier = Modifier
                     .fillMaxWidth()

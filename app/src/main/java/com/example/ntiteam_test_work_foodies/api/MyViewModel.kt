@@ -1,5 +1,6 @@
 package com.example.ntiteam_test_work_foodies.api
 
+import android.annotation.SuppressLint
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -24,5 +25,20 @@ class MainViewModel : ViewModel() {
                 Log.e("MainViewModel", "Ошибка при получении данных с сервера", e)
             }
         }
+    }
+
+    @SuppressLint("NullSafeMutableLiveData")
+    fun getProductById(id: String): LiveData<Product> {
+        val productLiveData = MutableLiveData<Product>()
+        viewModelScope.launch {
+            try {
+                val product = apiService.getProductById(id)
+                productLiveData.value = product
+            } catch (e: Exception) {
+                Log.e("MainViewModel", "Ошибка при получении информации о продукте", e)
+                productLiveData.value = null
+            }
+        }
+        return productLiveData
     }
 }
