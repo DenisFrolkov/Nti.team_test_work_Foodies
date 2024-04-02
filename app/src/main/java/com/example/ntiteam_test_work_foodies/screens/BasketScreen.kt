@@ -42,6 +42,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.ntiteam_test_work_foodies.R
+import com.example.ntiteam_test_work_foodies.api.MainViewModel
 import com.example.ntiteam_test_work_foodies.dataclass_ui.BasketItem
 import com.example.ntiteam_test_work_foodies.ui.theme.Gray
 import com.example.ntiteam_test_work_foodies.universalComponents.AddCardItem
@@ -50,7 +51,8 @@ import com.example.ntiteam_test_work_foodies.universalComponents.TopBar
 
 @Composable
 fun BasketScreen(
-    navController: NavController
+    navController: NavController,
+    viewModel: MainViewModel
 ) {
     Basket(
         navController = navController

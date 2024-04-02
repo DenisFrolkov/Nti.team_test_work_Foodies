@@ -39,6 +39,7 @@ import com.example.ntiteam_test_work_foodies.ui.theme.Gray
 fun ItemCard(
     textName: String,
     textWeight: String,
+    textWeightUnit: String,
     textPrice: String,
     textSalePrice: String?,
     navController: NavController
@@ -77,7 +78,7 @@ fun ItemCard(
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = textWeight,
+                    text = "$textWeight $textWeightUnit",
                     color = Color.Black,
                     style = TextStyle(
                         fontSize = 14.sp,

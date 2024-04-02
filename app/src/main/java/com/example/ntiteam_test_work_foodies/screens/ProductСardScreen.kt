@@ -35,11 +35,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.ntiteam_test_work_foodies.R
+import com.example.ntiteam_test_work_foodies.api.MainViewModel
 import com.example.ntiteam_test_work_foodies.universalComponents.FixedButton
 
 @Composable
 fun ProductCardScreen(
-    navController: NavController
+    navController: NavController,
+    viewModel: MainViewModel
 ) {
     ProductCard(navController = navController)
 }

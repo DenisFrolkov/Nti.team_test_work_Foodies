@@ -17,6 +17,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -29,27 +30,48 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.ntiteam_test_work_foodies.R
+import com.example.ntiteam_test_work_foodies.api.Category
+import com.example.ntiteam_test_work_foodies.api.MainViewModel
+import com.example.ntiteam_test_work_foodies.api.Product
 import com.example.ntiteam_test_work_foodies.ui.theme.Gray
 import com.example.ntiteam_test_work_foodies.universalComponents.CategoriesItem
 import com.example.ntiteam_test_work_foodies.universalComponents.FixedButton
 import com.example.ntiteam_test_work_foodies.universalComponents.ItemCard
+import kotlin.math.min
 
 @Composable
 fun CatalogScreen(
-    navController: NavController
+    navController: NavController,
+    viewModel: MainViewModel
 ) {
-    Catalog(navController = navController)
+    var categories by remember { mutableStateOf(emptyList<Category>()) }
+    var products by remember { mutableStateOf(emptyList<Product>()) }
+    LaunchedEffect(Unit) {
+        viewModel.fetchData()
+    }
+    LaunchedEffect(viewModel.categories, viewModel.products) {
+        viewModel.categories.observeForever { newCategories ->
+            categories = newCategories
+        }
+        viewModel.products.observeForever { newProducts ->
+            products = newProducts
+        }
+    }
+    Catalog(navController = navController, category = categories, product = products)
 }
 
 @Composable
 fun Catalog(
-    navController: NavController
+    navController: NavController,
+    category: List<Category>,
+    product: List<Product>
 ) {
     Column {
-        Column(
-        ) {
+        Column() {
             TopLine()
-            Categories()
+            Categories(
+                category = category
+            )
             Spacer(
                 modifier = Modifier
                     .height(16.dp)
@@ -64,18 +86,25 @@ fun Catalog(
                     )
             )
         }
-
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
+                .padding(horizontal = 16.dp)
                 .background(color = Color.White)
-                .navigationBarsPadding()
         ) {
-            item {
-                Column(
-                    modifier = Modifier.padding(horizontal = 16.dp)
-                ) {
-                    ItemList(navController = navController)
+            val chunkedProducts = product.chunked(2)
+            items(chunkedProducts) {rowItems ->
+                LazyRow {
+                    items(rowItems) { product ->
+                        ItemCard(
+                            textName = product.name,
+                            textWeight = product.measure.toString(),
+                            textWeightUnit = product.measure_unit,
+                            textPrice = product.price_current.toString(),
+                            textSalePrice = product.price_old.toString(),
+                            navController = navController
+                        )
+                    }
                 }
             }
         }
@@ -130,85 +159,21 @@ fun TopLine() {
 }
 
 @Composable
-fun Categories() {
+fun Categories(
+    category: List<Category>
+) {
     var selectedCategory by remember { mutableStateOf("") }
 
     LazyRow(
         modifier = Modifier.background(color = Color.White)
     ) {
-        items(listOf("Роллы", "Суши", "Наборы", "Горячие блюда", "Супы", "Десерты")) { category ->
+        items(category) { category ->
             CategoriesItem(
-                categoriesTitle = category,
+                categoriesTitle = category.name,
                 selectedCategory = selectedCategory,
                 onCategorySelected = { newCategory ->
                     selectedCategory = newCategory
                 }
-            )
-        }
-    }
-}
-
-@Composable
-fun ItemList(
-    navController: NavController
-) {
-    Row(
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth(0.5f)
-                .padding(end = 4.dp)
-        ) {
-            ItemCard(
-                textName = "Том Ям",
-                textWeight = "500 гр",
-                textPrice = "800",
-                textSalePrice = "720",
-                navController = navController
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            ItemCard(
-                textName = "Том Ям",
-                textWeight = "500 гр",
-                textPrice = "800",
-                textSalePrice = "720",
-                navController = navController
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            ItemCard(
-                textName = "Том Ям",
-                textWeight = "500 гр",
-                textPrice = "800",
-                textSalePrice = "720",
-                navController = navController
-            )
-        }
-        Column(
-            modifier = Modifier
-                .padding(start = 4.dp)
-        ) {
-            ItemCard(
-                textName = "Том Ям",
-                textWeight = "500 гр",
-                textPrice = "800",
-                textSalePrice = null,
-                navController = navController
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            ItemCard(
-                textName = "Том Ям",
-                textWeight = "500 гр",
-                textPrice = "800",
-                textSalePrice = null,
-                navController = navController
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            ItemCard(
-                textName = "Том Ям",
-                textWeight = "500 гр",
-                textPrice = "800",
-                textSalePrice = null,
-                navController = navController
             )
         }
     }

@@ -50,6 +50,7 @@ android {
 }
 
 dependencies {
+    implementation ("androidx.activity:activity-compose:1.8.2")
 
     implementation ("com.squareup.retrofit2:retrofit:2.10.0")
     implementation ("com.squareup.retrofit2:converter-gson:2.10.0")
