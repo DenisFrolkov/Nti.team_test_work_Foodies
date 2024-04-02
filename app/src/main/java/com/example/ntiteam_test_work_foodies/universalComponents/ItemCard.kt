@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -20,6 +21,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
@@ -40,25 +42,29 @@ fun ItemCard(
     textName: String,
     textWeight: String,
     textWeightUnit: String,
-    textPrice: String,
-    textSalePrice: String?,
+    priceCurrent: Long,
+    priceOld: Long,
     navController: NavController
 ) {
     var countAddCard by remember { mutableStateOf(0) }
+    var priceCurrentInRub = priceCurrent.toInt()/100
+    var priceOldInRub = priceOld.toInt()/100
     Box(
         modifier = Modifier
             .background(color = Gray, shape = RoundedCornerShape(8.dp))
+            .width(width = 189.5.dp)
+            .height(330.dp)
             .clickable(
                 interactionSource = remember { MutableInteractionSource() },
                 indication = null
             ) { navController.navigate("product_card_screen") }
     ) {
-        if (textSalePrice != null) {
+        if (priceOld.toInt() != 0) {
             Box(modifier = Modifier.padding(8.dp)) {
                 IconSaleItem(painterResource(id = R.drawable.sale_icon))
             }
         }
-        Column {
+        Column() {
             Image(
                 painter = painterResource(id = R.drawable.photo_image),
                 contentDescription = null,
@@ -66,31 +72,35 @@ fun ItemCard(
                 modifier = Modifier.fillMaxWidth()
             )
             Column(
-                modifier = Modifier.padding(horizontal = 12.dp)
+                verticalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier.padding(horizontal = 12.dp).fillMaxHeight()
             ) {
-                Text(
-                    text = textName,
-                    color = Color.Black,
-                    style = TextStyle(
-                        fontSize = 16.sp,
-                        fontFamily = FontFamily(Font(R.font.roboto_regular))
+                Column {
+                    Text(
+                        text = textName,
+                        color = Color.Black,
+                        style = TextStyle(
+                            fontSize = 16.sp,
+                            fontFamily = FontFamily(Font(R.font.roboto_regular))
+                        )
                     )
-                )
-                Spacer(modifier = Modifier.height(4.dp))
-                Text(
-                    text = "$textWeight $textWeightUnit",
-                    color = Color.Black,
-                    style = TextStyle(
-                        fontSize = 14.sp,
-                        fontFamily = FontFamily(
-                            Font(R.font.roboto_regular)
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Text(
+                        text = "$textWeight $textWeightUnit",
+                        color = Color.Black,
+                        style = TextStyle(
+                            fontSize = 14.sp,
+                            fontFamily = FontFamily(
+                                Font(R.font.roboto_regular)
+                            ),
                         ),
-                    ),
-                    modifier = Modifier.alpha(0.6f)
-                )
+                        modifier = Modifier.alpha(0.6f)
+                    )
+                }
                 if (countAddCard == 0) {
                     Row(
                         horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.Bottom,
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(vertical = 12.dp)
@@ -102,9 +112,9 @@ fun ItemCard(
                                 countAddCard++
                             }
                     ) {
-                        if (textSalePrice != null) {
+                        if (priceOld.toInt() != 0) {
                             Text(
-                                text = "$textSalePrice ₽",
+                                text = "$priceOldInRub ₽",
                                 color = Color.Black,
                                 style = TextStyle(
                                     fontSize = 14.sp,
@@ -117,18 +127,18 @@ fun ItemCard(
                             Spacer(modifier = Modifier.width(8.dp))
                         }
                         Text(
-                            text = "$textPrice ₽",
+                            text = "$priceCurrentInRub ₽",
                             color = Color.Black,
                             style = TextStyle(
                                 fontSize = 14.sp,
                                 fontFamily = FontFamily(
                                     Font(R.font.roboto_medium)
                                 ),
-                                textDecoration = if (textSalePrice != null) TextDecoration.LineThrough else null
+                                textDecoration = if (priceOld.toInt() != 0) TextDecoration.LineThrough else null
                             ),
                             modifier = Modifier
                                 .padding(vertical = 12.dp)
-                                .alpha(if (textSalePrice != null) 0.6f else 1f)
+                                .alpha(if (priceOld.toInt() != 0) 0.6f else 1f)
                         )
                     }
                 } else {

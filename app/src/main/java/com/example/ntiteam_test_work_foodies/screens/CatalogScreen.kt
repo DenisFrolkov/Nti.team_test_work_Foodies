@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -37,7 +38,6 @@ import com.example.ntiteam_test_work_foodies.ui.theme.Gray
 import com.example.ntiteam_test_work_foodies.universalComponents.CategoriesItem
 import com.example.ntiteam_test_work_foodies.universalComponents.FixedButton
 import com.example.ntiteam_test_work_foodies.universalComponents.ItemCard
-import kotlin.math.min
 
 @Composable
 fun CatalogScreen(
@@ -57,16 +57,18 @@ fun CatalogScreen(
             products = newProducts
         }
     }
-    Catalog(navController = navController, category = categories, product = products)
+    Catalog(navController = navController, category = categories, products = products)
 }
 
 @Composable
 fun Catalog(
     navController: NavController,
     category: List<Category>,
-    product: List<Product>
+    products: List<Product>
 ) {
-    Column {
+    Column(
+        modifier = Modifier.background(color = Color.White)
+    ) {
         Column() {
             TopLine()
             Categories(
@@ -86,28 +88,7 @@ fun Catalog(
                     )
             )
         }
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 16.dp)
-                .background(color = Color.White)
-        ) {
-            val chunkedProducts = product.chunked(2)
-            items(chunkedProducts) {rowItems ->
-                LazyRow {
-                    items(rowItems) { product ->
-                        ItemCard(
-                            textName = product.name,
-                            textWeight = product.measure.toString(),
-                            textWeightUnit = product.measure_unit,
-                            textPrice = product.price_current.toString(),
-                            textSalePrice = product.price_old.toString(),
-                            navController = navController
-                        )
-                    }
-                }
-            }
-        }
+        ProductsList(products = products, navController = navController)
     }
     Column(
         verticalArrangement = Arrangement.Bottom,
@@ -121,6 +102,36 @@ fun Catalog(
             textInCard = "",
             navController = navController
         )
+    }
+}
+
+@Composable
+fun ProductsList(products: List<Product>, navController: NavController) {
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 16.dp)
+            .background(color = Color.White)
+    ) {
+        items(products.chunked(2)) { productPair ->
+            LazyRow(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                items(productPair) { product ->
+                    ItemCard(
+                        textName = product.name,
+                        textWeight = product.measure.toString(),
+                        textWeightUnit = product.measure_unit,
+                        priceCurrent = product.price_current,
+                        priceOld = product.price_old,
+                        navController = navController
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                }
+            }
+            Spacer(modifier = Modifier.height(8.dp))
+        }
     }
 }
 
